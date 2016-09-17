@@ -1,9 +1,8 @@
 <?php
 
 class userDAO {
-    /*
-    * Get All Users
-    * - Return all users
+    /** Get All Users
+    * @return UserDAO[] - all users
     */
     public static function getAll(){
         $connection = Connection::getConnection();
@@ -20,9 +19,8 @@ class userDAO {
         return $users;
     }
     
-    /*
-    * Login
-    * - Return the response object with the user in case of success
+    /** Login
+    * @return stdClass - the response object with the user in case of success
     */
     public static function login($email, $password){
         $connection = Connection::getConnection();
@@ -41,10 +39,9 @@ class userDAO {
         return $response;
     }
     
-    /*
-    * Check Authorization Key
-    * - $key = The key that will be validated
-    * - Return a json with the result and the user in case it's a valid key
+    /** Check Authorization Key
+    * @param $key String - The key that will be validated
+    * @return stdClass - a json with the result and the user in case it's a valid key
     */
     public static function checkAuthorizationKey($key) {
         $users = UserDAO::getAll();
@@ -60,10 +57,9 @@ class userDAO {
         return $response;
     }
     
-    /*
-    * Generate access key
-    * - $user = user to have the key generated
-    * - Return a generated key for this user to access the system (valid until 00:00)
+    /** Generate access key
+    * @param $user UserDAO - user to have the key generated
+    * @return String - a generated key for this user to access the system (valid until 00:00)
     */
     public static function generateKey($user) {
         return md5("uskey" . $user->email . $user->password . date("d"));

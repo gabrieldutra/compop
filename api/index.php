@@ -33,7 +33,7 @@ $app->get('/users', function () {
     if($validateKey->result && $validateKey->user->level >= 1) {
         $users = UserDAO::getAll();
         $response->status(200);        
-    } else $response->status(403);
+    } else $response->status(401);
     echo json_encode($users);
 });
 
