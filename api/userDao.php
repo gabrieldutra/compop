@@ -19,6 +19,19 @@ class userDAO {
         return $users;
     }
     
+    /** Get User by Id
+    * @param $id int - id to be recovered
+    * @return UserDAO - user that has the id
+    */
+    public static function getUserById($id){
+        $connection = Connection::getConnection();
+        $sql = "SELECT * FROM user WHERE id = '$id'";
+        $result = mysqli_query($connection, $sql);
+        $user = mysqli_fetch_object($result);
+        unset($user->password);
+        return $user;
+    }
+    
     /** Login
     * @return stdClass - the response object with the user in case of success
     */
@@ -52,6 +65,7 @@ class userDAO {
             if ($genKey == $key) {
                 $response->result = true;
                 $response->user = $user;
+                unset($response->user->password);
             }
         }
         return $response;

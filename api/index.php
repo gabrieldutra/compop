@@ -11,7 +11,10 @@ date_default_timezone_set("America/Sao_Paulo");
 $app = new \Slim\Slim();
 $app->response()->header('Content-Type', 'application/json;charset=utf-8');
 
-// /login
+/** POST /login
+* @param Body - Object with {"email": "email@example.com", "password": "passwd"} 
+* @return JSON - all the users in case the request user has permission
+*/
 
 $app->post('/login', function() {
     $request = \Slim\Slim::getInstance()->request();
@@ -23,7 +26,9 @@ $app->post('/login', function() {
     echo json_encode($login);
 });
 
-// /users - Temporary for tests
+/** GET /users
+* @return JSON - all the users in case the request user has permission
+*/
 
 $app->get('/users', function () {
     $response = \Slim\Slim::getInstance()->response();
@@ -35,6 +40,29 @@ $app->get('/users', function () {
         $response->status(200);        
     } else $response->status(401);
     echo json_encode($users);
+});
+
+/** GET /users/:id
+* @param :id int - id of the user to be returned
+* @return JSON - the user object (in case id = 0 the user is who asked)
+*/
+
+$app->get('/users/:id', function ($id) {
+    $response = \Slim\Slim::getInstance()->response();
+    $authorization = \Slim\Slim::getInstance()->request->headers->get("AuthKey");
+    $validateKey = UserDAO::checkAuthorizationKey($authorization);
+    if($validateKey->result){
+        if($id == 0){
+            $user = $validateKey->user; 
+            $response->status(200);          
+            echo json_encode($user);       
+        } else if($validateKey->user->level >= 1 /* || user of the $id is interest in an oportunity that the request user owns */){
+            $user = UserDAO::getUserById($id);
+            if(empty($user)) $response->status(204);
+            else $response->status(200);  
+            echo json_encode($user);
+        } else $response->status(403);
+    } else $response->status(401);
 });
 
 $app->run();
