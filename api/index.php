@@ -15,7 +15,6 @@ $app->response()->header('Content-Type', 'application/json;charset=utf-8');
 * @param Body - Object with {"email": "email@example.com", "password": "passwd"} 
 * @return JSON - all the users in case the request user has permission
 */
-
 $app->post('/login', function() {
     $request = \Slim\Slim::getInstance()->request();
     $response = \Slim\Slim::getInstance()->response();
@@ -29,7 +28,6 @@ $app->post('/login', function() {
 /** GET /users
 * @return JSON - all the users in case the request user has permission
 */
-
 $app->get('/users', function () {
     $response = \Slim\Slim::getInstance()->response();
     $authorization = \Slim\Slim::getInstance()->request->headers->get("AuthKey");
@@ -46,7 +44,6 @@ $app->get('/users', function () {
 * @param :id int - id of the user to be returned
 * @return JSON - the user object (in case id = 0 the user is who asked)
 */
-
 $app->get('/users/:id', function ($id) {
     $response = \Slim\Slim::getInstance()->response();
     $authorization = \Slim\Slim::getInstance()->request->headers->get("AuthKey");
@@ -66,16 +63,14 @@ $app->get('/users/:id', function ($id) {
 });
 
 /** POST /users - User registration
-* @return JSON - the registered user 
+* @return JSON - the response
 */
-
 $app->post('/users', function () {
     $request = \Slim\Slim::getInstance()->request();
     $response = \Slim\Slim::getInstance()->response();
     $data = json_decode($request->getBody());
-    if(isset($data->email) && isset($data->password) && isset($data->name)){
-        //TODO
-    } else $response->status(400);
+    $result = UserDAO::insertUser($data);
+    $response->status($result->status);
 });
 
 $app->run();

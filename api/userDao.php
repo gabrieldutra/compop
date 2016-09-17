@@ -1,6 +1,6 @@
 <?php
 
-class userDAO {
+class UserDAO {
     /** Get All Users
     * @return UserDAO[] - all users
     */
@@ -54,19 +54,39 @@ class userDAO {
     
     /** Insert new user
     * @param $user UserDAO - user to be created
-    * @return UserDAO - the inserted user
+    * @return object response
     */
     public static function insertUser($user){
         $connection = Connection::getConnection();
         $user->password = md5($user->password);
         if(!isset($user->receive_email)) $user->receive_email = 1;
-        $sql = "INSERT INTO user (name,email,password,receive_email,registry,phone,mobile_phone,about,photo)"
-                . " VALUES('$user->name', '$user->email', '$user->password', '$user->receive_email', '$user->registry', '$user->phone', '$user->mobile_phone', '$user->about', '$user->photo')";
-        $result = mysqli_query($connection, $sql);
+        $verifysql = "SELECT * FROM user WHERE email='$user->email'";
+        $sql = "INSERT INTO user (name,email,password,receive_email,registry,phone,mobile_phone,about)"
+                . " VALUES('$user->name', '$user->email', '$user->password', '$user->receive_email', '$user->registry', '$user->phone', '$user->mobile_phone', '$user->about')";
         $response = new stdClass();
-        if($result){
-            //TODO
+        $valid_email = filter_var($user->email, FILTER_VALIDATE_EMAIL);
+        $user_not_exist = false;
+        if(strlen($user->name) <= 5 || !$valid_email || strlen($user->password) <= 5){  
+            $response->result = false;
+            $response->status = 400;
+            return $response;
+        }     
+        $verifyquery = mysqli_query($connection, $verifysql);
+        $user_not_exist = (mysqli_num_rows($verifyquery) == 0);         
+        if(!$user_not_exist){
+            $response->result = false;
+            $response->status = 409;
+            return $response;
         }
+        $result = mysqli_query($connection, $sql);
+        if($result){
+            $response->result = true;
+            $response->status = 201;
+        } else {                
+            $response->result = false;
+            $response->status = 500;
+        }
+        
         return $response;
     }
     
