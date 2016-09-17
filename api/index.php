@@ -65,6 +65,19 @@ $app->get('/users/:id', function ($id) {
     } else $response->status(401);
 });
 
+/** POST /users - User registration
+* @return JSON - the registered user 
+*/
+
+$app->post('/users', function () {
+    $request = \Slim\Slim::getInstance()->request();
+    $response = \Slim\Slim::getInstance()->response();
+    $data = json_decode($request->getBody());
+    if(isset($data->email) && isset($data->password) && isset($data->name)){
+        //TODO
+    } else $response->status(400);
+});
+
 $app->run();
 
 ?>

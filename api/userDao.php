@@ -52,6 +52,24 @@ class userDAO {
         return $response;
     }
     
+    /** Insert new user
+    * @param $user UserDAO - user to be created
+    * @return UserDAO - the inserted user
+    */
+    public static function insertUser($user){
+        $connection = Connection::getConnection();
+        $user->password = md5($user->password);
+        if(!isset($user->receive_email)) $user->receive_email = 1;
+        $sql = "INSERT INTO user (name,email,password,receive_email,registry,phone,mobile_phone,about,photo)"
+                . " VALUES('$user->name', '$user->email', '$user->password', '$user->receive_email', '$user->registry', '$user->phone', '$user->mobile_phone', '$user->about', '$user->photo')";
+        $result = mysqli_query($connection, $sql);
+        $response = new stdClass();
+        if($result){
+            //TODO
+        }
+        return $response;
+    }
+    
     /** Check Authorization Key
     * @param $key String - The key that will be validated
     * @return stdClass - a json with the result and the user in case it's a valid key
