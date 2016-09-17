@@ -2,10 +2,7 @@
 
 class Connection
 {
-  public static $database = "residence";
-//  public static $address = "150.164.102.160";
- // public static $user = "daw-aluno2";
- // public static $password = "wisney";
+  public static $database = "mydb";
   public static $address = "localhost";
   public static $user = "root";
   public static $password = "allods6655";
