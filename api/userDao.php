@@ -90,6 +90,66 @@ class UserDAO {
         return $response;
     }
     
+    /** Update user
+    * @param $id int - user id to update   
+    * @param $user UserDAO - user object to update
+    * @return object response
+    */
+    public static function updateUser($id, $user){
+        $connection = Connection::getConnection();        
+        $text="";
+        if(isset($user->name)) $text.="name='$user->name'";
+        if(isset($user->receive_email)) {
+            if(!empty($text)) $text.=" ,";
+            $text.="receive_email='$user->receive_email'";
+        }
+        if(isset($user->registry)) {
+            if(!empty($text)) $text.=" ,";
+            $text.="registry='$user->registry'";
+        }
+        if(isset($user->phone)) {
+            if(!empty($text)) $text.=" ,";
+            $text.="phone='$user->phone'";
+        }
+        if(isset($user->mobile_phone)) {
+            if(!empty($text)) $text.=" ,";
+            $text.="mobile_phone='$user->mobile_phone'";
+        }
+        if(isset($user->level)) {
+            if(!empty($text)) $text.=" ,";
+            $text.="level='$user->level'";
+        }
+        if(isset($user->photo)) {
+            if(!empty($text)) $text.=" ,";
+            $text.="photo='$user->photo'";
+        }
+        if(isset($user->about)) {
+            if(!empty($text)) $text.=" ,";
+            $text.="about='$user->about'";
+        }
+        if(isset($user->password)) {
+            if(!empty($text)) $text.=" ,";
+            $user->password = md5($user->password);
+            $text.="password='$user->password'";
+        }
+        $sql = "UPDATE user SET ".$text." WHERE id = $id";
+        $response = new stdClass();   
+        if(empty($text)){
+            $response->result = false;
+            $response->status = 400;
+            return $response;
+        }     
+        $result = mysqli_query($connection, $sql);    
+        if($result){
+            $response->result = true;
+            $response->status = 204;
+        } else {                
+            $response->result = false;
+            $response->status = 500;
+        }
+        return $response;
+    }
+    
     /** Check Authorization Key
     * @param $key String - The key that will be validated
     * @return stdClass - a json with the result and the user in case it's a valid key
