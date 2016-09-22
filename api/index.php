@@ -98,6 +98,29 @@ $app->put('/users/:id', function ($id) {
     } else $response->status(401);
 });
 
+/** GET /oportunities
+* @param $keyword String - keyword to locate oportunity
+* @param $status int - filter using the status of the oportunity
+* @param $approved int - filter to show not approved oportunities (only for admins)
+* @return JSON - all the users in case the request user has permission
+*/
+$app->get('/oportunities', function () {
+    $response = \Slim\Slim::getInstance()->response();
+    $authorization = \Slim\Slim::getInstance()->request->headers->get("AuthKey");
+    $validateKey = UserDAO::checkAuthorizationKey($authorization);
+    $filter = new stdClass();
+    $filter->keyword = $_GET['keyword'];
+    $filter->approved = 1;
+    if(isset($_GET["status"])) $filter->status = $_GET['status'];
+    if(isset($_GET["approved"]) && $validateKey->result && $validateKey->user->level >= 1) $filter->approved = $_GET['approved'];
+    $oportunities = OportunityDAO::getOportunities($filter);
+    if(empty($oportunities)) $response->status(204);  
+    else {
+        $response->status(200); 
+        echo json_encode($oportunities);
+    }    
+});
+
 $app->run();
 
 ?>

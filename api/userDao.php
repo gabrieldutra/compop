@@ -32,6 +32,18 @@ class UserDAO {
         return $user;
     }
     
+    /** Get Basic User by Id
+    * @param $id int - id to be recovered
+    * @return UserDAO - object with user id and name that has the id
+    */
+    public static function getBasicUserById($id){
+        $connection = Connection::getConnection();
+        $sql = "SELECT id,name,about FROM user WHERE id = '$id'";
+        $result = mysqli_query($connection, $sql);
+        $user = mysqli_fetch_object($result);
+        return $user;
+    }
+    
     /** Login
     * @return stdClass - the response object with the user in case of success
     */
