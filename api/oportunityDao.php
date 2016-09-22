@@ -23,6 +23,21 @@ class OportunityDAO{
         }
         return $oportunities;
     }
+    
+    /** Get Oportunity By Id
+    * @param $id int - Id of the oportunity
+    * @return OportunityDAO[] - oportunity that has the id
+    */
+    public static function getOportunityById($id){
+        $connection = Connection::getConnection();
+        $sql = "SELECT * FROM oportunity WHERE id='".$id."'";
+        $result = mysqli_query($connection, $sql);
+        if(mysqli_num_rows($result) != 0){
+            $oportunity = mysqli_fetch_object($result);
+            $oportunity->creator = UserDAO::getBasicUserById($oportunity->creator_id);
+        }
+        return $oportunity;
+    }
 }
 
 ?>
