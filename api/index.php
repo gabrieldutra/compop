@@ -4,6 +4,7 @@ require 'Slim/Slim.php';
 
 require 'connection.php';
 require 'userDao.php';
+require 'oportunityDao.php';
 
 date_default_timezone_set("America/Sao_Paulo");
 
@@ -138,6 +139,23 @@ $app->get('/oportunities/:id', function ($id) {
         } else $response->status(403);
         
     }    
+});
+
+/** POST /oportunities - Oportunity creation
+* @param Body - Oportunity data object
+* @return JSON - the response
+*/
+$app->post('/oportunities', function () {
+    $request = \Slim\Slim::getInstance()->request();
+    $response = \Slim\Slim::getInstance()->response();
+    $authorization = \Slim\Slim::getInstance()->request->headers->get("AuthKey");
+    $validateKey = UserDAO::checkAuthorizationKey($authorization);
+    if($validateKey->result){
+        $data = json_decode($request->getBody());
+        $data->user_id = $validateKey->user->id;
+        $result = OportunityDAO::insertOportunity($data);
+        $response->status($result->status);
+    } else $response->status(401);
 });
 
 $app->run();

@@ -38,6 +38,43 @@ class OportunityDAO{
         }
         return $oportunity;
     }
+    
+    /** Insert new oportunity
+    * @param $oportunity OportunityDAO - oportunity to be created
+    * @return object response
+    */
+    public static function insertOportunity($oportunity){
+        $connection = Connection::getConnection();
+        $verifysql = "SELECT * FROM oportunity WHERE title='$oportunity->title'";
+        
+        if(!isset($oportunity->status)) $oportunity->status = 0;
+        $sql = "INSERT INTO oportunity (title,creator_id,status,description,inscription,photo)"
+                . " VALUES('$oportunity->title','$oportunity->user_id','$oportunity->status','$oportunity->description','$oportunity->inscription','$oportunity->photo')";
+        $response = new stdClass();
+        $oportunity_not_exist = false;
+        if(strlen($oportunity->title) <= 5){  
+            $response->result = false;
+            $response->status = 400;
+            return $response;
+        }     
+        $verifyquery = mysqli_query($connection, $verifysql);
+        $oportunity_not_exist = (mysqli_num_rows($verifyquery) == 0);         
+        if(!$oportunity_not_exist){
+            $response->result = false;
+            $response->status = 409;
+            return $response;
+        }
+        $result = mysqli_query($connection, $sql);
+        if($result){
+            $response->result = true;
+            $response->status = 201;
+        } else {                
+            $response->result = false;
+            $response->status = 500;
+        }
+        
+        return $response;
+    }
 }
 
 ?>
