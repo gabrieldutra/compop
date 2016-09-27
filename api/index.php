@@ -66,7 +66,7 @@ $app->get('/users/:id', function ($id) {
 
 /** POST /users - User registration
 * @param Body - User data object
-* @return JSON - the response
+* @return status code
 */
 $app->post('/users', function () {
     $request = \Slim\Slim::getInstance()->request();
@@ -76,10 +76,10 @@ $app->post('/users', function () {
     $response->status($result->status);
 });
 
-/** PUT /users/:id - User registration
+/** PUT /users/:id - User update
 * @param :id int - id of the user to be updated
 * @param Body - User data object
-* @return JSON - the response
+* @return status code
 */
 $app->put('/users/:id', function ($id) {
     $request = \Slim\Slim::getInstance()->request();
@@ -88,13 +88,13 @@ $app->put('/users/:id', function ($id) {
     $validateKey = UserDAO::checkAuthorizationKey($authorization);
     $data = json_decode($request->getBody());    
     if($validateKey->result){
-        if($id == 0 || $id == $validateKey->user->id){
+        if($validateKey->user->level >= 2){
+            $result = UserDAO::updateUser($id, $data);            
+            $response->status($result->status);
+        } else if($id == 0 || $id == $validateKey->user->id){
             unset($data->level);
             $result = UserDAO::updateUser($validateKey->user->id, $data);            
             $response->status($result->status);     
-        } else if($validateKey->user->level >= 2){
-            $result = UserDAO::updateUser($id, $data);            
-            $response->status($result->status);
         } else $response->status(403);
     } else $response->status(401);
 });
@@ -155,6 +155,52 @@ $app->post('/oportunities', function () {
         $data->user_id = $validateKey->user->id;
         $result = OportunityDAO::insertOportunity($data);
         $response->status($result->status);
+    } else $response->status(401);
+});
+
+/** PUT /oportunities/:id - Oportunity update
+* @param :id int - id of the oportunity to be updated
+* @param Body - Oportunity data object
+* @return status code
+*/
+$app->put('/oportunities/:id', function ($id) {
+    $request = \Slim\Slim::getInstance()->request();
+    $response = \Slim\Slim::getInstance()->response();
+    $authorization = \Slim\Slim::getInstance()->request->headers->get("AuthKey");
+    $validateKey = UserDAO::checkAuthorizationKey($authorization);
+    $data = json_decode($request->getBody());
+    $oportunity = OportunityDAO::getOportunityById($id);
+    if($validateKey->result){
+        if($validateKey->user->level >= 1){
+            $result = OportunityDAO::updateOportunity($id, $data);            
+            $response->status($result->status);
+        } else if($oportunity->creator_id == $validateKey->user->id){
+            unset($data->approved);
+            $result = OportunityDAO::updateOportunity($id, $data);            
+            $response->status($result->status);     
+        } else $response->status(403);
+    } else $response->status(401);
+});
+
+/** DELETE /oportunities/:id - Oportunity deletion
+* @param :id int - id of the oportunity to be deleted
+* @return status code
+*/
+$app->delete('/oportunities/:id', function ($id) {
+    $request = \Slim\Slim::getInstance()->request();
+    $response = \Slim\Slim::getInstance()->response();
+    $authorization = \Slim\Slim::getInstance()->request->headers->get("AuthKey");
+    $validateKey = UserDAO::checkAuthorizationKey($authorization);
+    $oportunity = OportunityDAO::getOportunityById($id);
+    if($validateKey->result){
+        if($validateKey->user->level >= 1){
+            $result = OportunityDAO::deleteOportunity($id);            
+            $response->status($result->status);
+        } else if($oportunity->creator_id == $validateKey->user->id){
+            unset($data->approved);
+            $result = OportunityDAO::deleteOportunity($id);            
+            $response->status($result->status);     
+        } else $response->status(403);
     } else $response->status(401);
 });
 

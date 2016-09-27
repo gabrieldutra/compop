@@ -75,6 +75,76 @@ class OportunityDAO{
         
         return $response;
     }
+    
+    /** Update oportunity
+    * @param $id int - oportunity id to update   
+    * @param $user OportunityDAO - oportunity object to update
+    * @return object response
+    */
+    public static function updateOportunity($id, $oportunity){
+        $connection = Connection::getConnection();        
+        $text="";
+        if(isset($oportunity->status)) $text.="status='$oportunity->status'";
+        if(isset($oportunity->description)) {
+            if(!empty($text)) $text.=" ,";
+            $text.="description='$oportunity->description'";
+        }
+        if(isset($oportunity->approved)) {
+            if(!empty($text)) $text.=" ,";
+            $text.="approved='$oportunity->approved'";
+        }
+        if(isset($oportunity->inscription)) {
+            if(!empty($text)) $text.=" ,";
+            $text.="inscription='$oportunity->inscription'";
+        }
+        if(isset($oportunity->photo)) {
+            if(!empty($text)) $text.=" ,";
+            $text.="photo='$oportunity->photo'";
+        }
+        $sql = "UPDATE oportunity SET ".$text." WHERE id = $id";
+        $response = new stdClass();   
+        if(empty($text)){
+            $response->result = false;
+            $response->status = 400;
+            return $response;
+        }     
+        $result = mysqli_query($connection, $sql);    
+        if($result){
+            $response->result = true;
+            $response->status = 204;
+        } else {                
+            $response->result = false;
+            $response->status = 500;
+        }
+        return $response;
+    }
+    
+    /** Delete oportunity
+    * @param $id int - oportunity id to delete   
+    * @return object response
+    */
+    public static function deleteOportunity($id){
+        $connection = Connection::getConnection();
+        $sql = "DELETE FROM oportunity WHERE id='$id'";
+        $result = mysqli_query($connection, $sql);    
+        $affected = mysqli_affected_rows($connection);
+        $response = new stdClass();  
+        if($result){
+            if($affected == 0){   
+                $response->result = false;
+                $response->status = 400;             
+            } else {
+                $response->result = true;
+                $response->status = 204;                
+            }
+        } else {               
+            $response->result = true;
+            $response->status = 204; 
+            $response->result = false;
+            $response->status = 500;
+        }
+        return $response;
+    }
 }
 
 ?>
