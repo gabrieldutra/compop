@@ -125,6 +125,7 @@ class OportunityDAO{
     */
     public static function deleteOportunity($id){
         $connection = Connection::getConnection();
+        InterestDAO::deleteInterest(NULL, $id);
         $sql = "DELETE FROM oportunity WHERE id='$id'";
         $result = mysqli_query($connection, $sql);    
         $affected = mysqli_affected_rows($connection);

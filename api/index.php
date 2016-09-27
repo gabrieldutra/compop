@@ -49,19 +49,22 @@ $app->get('/users/:id', function ($id) {
     $response = \Slim\Slim::getInstance()->response();
     $authorization = \Slim\Slim::getInstance()->request->headers->get("AuthKey");
     $validateKey = UserDAO::checkAuthorizationKey($authorization);
-    $interest = $_GET["interest"];
-    if($validateKey->result){
-        if($id == 0 || $id == $validateKey->user->id){
-            $user = $validateKey->user; 
-            $response->status(200);          
-            echo json_encode($user);       
-        } else if($validateKey->user->level >= 1 /* || user of the $id is interest in an oportunity that the request user owns */){
-            $user = UserDAO::getUserById($id);
-            if(empty($user)) $response->status(204);
-            else $response->status(200);  
-            echo json_encode($user);
-        } else $response->status(403);
-    } else $response->status(401);
+    $interests = $_GET["interests"];
+    if($validateKey->result && ($id == 0 || $id == $validateKey->user->id)){
+        $user = $validateKey->user; 
+        $response->status(200);          
+        echo json_encode($user);       
+    } else if($validateKey->result && ($validateKey->user->level >= 1 /* || user of the $id is interest in an oportunity that the request user owns */)){
+        $user = UserDAO::getUserById($id);
+        if(empty($user)) $response->status(204);
+        else $response->status(200);  
+        echo json_encode($user);
+    } else {
+        $user = UserDAO::getBasicUserById($id);
+        if(empty($user)) $response->status(204);
+        else $response->status(200);  
+        echo json_encode($user);
+    }
 });
 
 /** POST /users - User registration
@@ -201,6 +204,39 @@ $app->delete('/oportunities/:id', function ($id) {
             $result = OportunityDAO::deleteOportunity($id);            
             $response->status($result->status);     
         } else $response->status(403);
+    } else $response->status(401);
+});
+
+/** GET /interests
+* @param $user_id int - user id
+* @param $opotunity_id int - oportunity id
+* @return JSON - all the interests with the filter
+*/
+$app->get('/interests', function () {
+    $response = \Slim\Slim::getInstance()->response();
+    $authorization = \Slim\Slim::getInstance()->request->headers->get("AuthKey");
+    if(is_numeric($_GET['user_id'])) $uid = $_GET['user_id'];
+    if(is_numeric($_GET['oportunity_id'])) $oid = $_GET['oportunity_id'];
+    $interests = InterestDAO::getInterests($uid,$oid);
+    if(empty($interests)) $response->status(204);  
+    else {
+        $response->status(200); 
+        echo json_encode($interests);
+    }    
+});
+
+/** DELETE /interests/:id - Oportunity deletion
+* @param :id int - id of the oportunity to delete the interest
+* @return status code
+*/
+$app->delete('/interests/:id', function ($id) {
+    $request = \Slim\Slim::getInstance()->request();
+    $response = \Slim\Slim::getInstance()->response();
+    $authorization = \Slim\Slim::getInstance()->request->headers->get("AuthKey");
+    $validateKey = UserDAO::checkAuthorizationKey($authorization);    
+    if($validateKey->result){
+        $result = InterestDAO::deleteInterest($validateKey->user->id,$id);            
+        $response->status($result->status);   
     } else $response->status(401);
 });
 
