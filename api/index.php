@@ -54,7 +54,7 @@ $app->get('/users/:id', function ($id) {
         $user = $validateKey->user; 
         $response->status(200);          
         echo json_encode($user);       
-    } else if($validateKey->result && ($validateKey->user->level >= 1 /* || user of the $id is interest in an oportunity that the request user owns */)){
+    } else if($validateKey->result && ($validateKey->user->level >= 1 || UserDAO::userCanSeeUser($validateKey->user->id,$id))){
         $user = UserDAO::getUserById($id);
         if(empty($user)) $response->status(204);
         else $response->status(200);  
@@ -223,6 +223,28 @@ $app->get('/interests', function () {
         $response->status(200); 
         echo json_encode($interests);
     }    
+});
+
+/** POST /interests - Mark interest
+* @param Body - Object with the oportunity id
+* @return JSON - the response
+*/
+$app->post('/interests', function () {
+    $request = \Slim\Slim::getInstance()->request();
+    $response = \Slim\Slim::getInstance()->response();
+    $authorization = \Slim\Slim::getInstance()->request->headers->get("AuthKey");
+    $validateKey = UserDAO::checkAuthorizationKey($authorization);
+    if($validateKey->result){
+        $data = json_decode($request->getBody());
+        $data->user_id = $validateKey->user->id;
+        if(is_numeric($data->oportunity_id)){
+            $oportunity = OportunityDAO::getOportunityById($data->oportunity_id);
+            if(!empty($oportunity) && $oportunity->approved == 1){
+                $result = InterestDAO::insertInterest($data);
+                $response->status($result->status);    
+            } else $response->status(400);                        
+        } else $response->status(400);
+    } else $response->status(401);
 });
 
 /** DELETE /interests/:id - Oportunity deletion

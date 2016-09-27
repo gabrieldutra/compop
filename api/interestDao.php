@@ -30,6 +30,35 @@ class InterestDAO{
         return $interests;
     }
     
+    /** Insert new interest
+    * @param $oportunity InterestDAO - interest to be created
+    * @return object response
+    */
+    public static function insertInterest($interest){
+        $connection = Connection::getConnection();
+        
+        $sql = "INSERT INTO interest (user_id,oportunity_id)"
+                . " VALUES('$interest->user_id','$interest->oportunity_id')";
+        $response = new stdClass();   
+        
+        $interest_not_exists = empty(InterestDAO::getInterests($interest->user_id,$interest->oportunity_id));     
+        if(!$interest_not_exists){
+            $response->result = false;
+            $response->status = 409;
+            return $response;
+        }
+        $result = mysqli_query($connection, $sql);
+        if($result){
+            $response->result = true;
+            $response->status = 201;
+        } else {                
+            $response->result = false;
+            $response->status = 500;
+        }
+        
+        return $response;
+    }
+    
     /** Delete interests
     * @param $uid int - user id
     * @param $oid int - oportunity id 

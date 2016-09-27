@@ -44,6 +44,18 @@ class UserDAO {
         return $user;
     }
     
+    /** User can see user (for non mod/admins)
+    * @param $user1_id int - id of the user 1
+    * @param $user2_id int - id of the user 2
+    * @return boolean - return if user1 can see user2's informations
+    */
+    public static function userCanSeeUser($user1_id, $user2_id){
+        $connection = Connection::getConnection();
+        $sql = "SELECT interest.user_id, oportunity.creator_id FROM interest JOIN oportunity ON oportunity.id = interest.oportunity_id HAVING user_id='$user2_id' AND creator_id='$user1_id'";
+        $result = mysqli_query($connection, $sql);
+        return mysqli_num_rows($result) != 0;
+    }
+    
     /** Login
     * @return stdClass - the response object with the user in case of success
     */
