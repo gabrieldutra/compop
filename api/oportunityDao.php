@@ -12,7 +12,7 @@ class OportunityDAO{
         if(isset($filter->approved)) $filter_sql.=" AND approved=".$filter->approved;
         $sql = "SELECT * FROM oportunity ".$filter_sql." ORDER BY id DESC";
         $result = mysqli_query($connection, $sql);
-        $opotunities = array();
+        $oportunities = array();
         while ($o = mysqli_fetch_object($result)) {
             if ($o != null) {
                 $oportunity = new stdClass();
@@ -30,11 +30,33 @@ class OportunityDAO{
     */
     public static function getFeaturedOportunities($filter){
         $connection = Connection::getConnection();
-        $filter_sql = "SELECT oportunity.*, COUNT(interest.oportunity_id) as interested FROM interest JOIN oportunity ON oportunity.id = interest.oportunity_id GROUP BY oportunity.id HAVING oportunity.approved='1' ORDER BY interested DESC";
+        $filter_sql = "SELECT oportunity.*, COUNT(interest.oportunity_id) as interested FROM interest JOIN oportunity ON oportunity.id = interest.oportunity_id GROUP BY oportunity.id HAVING oportunity.approved='1' ORDER BY interested DESC, updated DESC";
         if(isset($filter->limit)) $filter_sql.="  LIMIT ".$filter->limit;
         $sql = $filter_sql;
         $result = mysqli_query($connection, $sql);
-        $opotunities = array();
+        $oportunities = array();
+        while ($o = mysqli_fetch_object($result)) {
+            if ($o != null) {
+                $oportunity = new stdClass();
+                $oportunity = $o;
+                $oportunity->creator = UserDAO::getBasicUserById($oportunity->creator_id);
+                $oportunities[] = $oportunity;
+            }
+        }
+        return $oportunities;
+    }
+    
+    /** Get Recent Oportunities 
+    * @param $filter - object to filter oportunities
+    * @return OportunityDAO[] - oportunities
+    */
+    public static function getRecentOportunities($filter){
+        $connection = Connection::getConnection();
+        $filter_sql = "SELECT * FROM oportunity WHERE oportunity.approved='1' ORDER BY created DESC";
+        if(isset($filter->limit)) $filter_sql.="  LIMIT ".$filter->limit;
+        $sql = $filter_sql;
+        $result = mysqli_query($connection, $sql);
+        $oportunities = array();
         while ($o = mysqli_fetch_object($result)) {
             if ($o != null) {
                 $oportunity = new stdClass();
