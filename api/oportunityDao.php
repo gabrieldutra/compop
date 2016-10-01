@@ -17,6 +17,7 @@ class OportunityDAO{
             if ($o != null) {
                 $oportunity = new stdClass();
                 $oportunity = $o;
+                if(empty($oportunity->photo)) $oportunity->photo = "images/sem_logo.png";
                 $oportunity->creator = UserDAO::getBasicUserById($oportunity->creator_id);
                 $oportunities[] = $oportunity;
             }
@@ -39,6 +40,7 @@ class OportunityDAO{
             if ($o != null) {
                 $oportunity = new stdClass();
                 $oportunity = $o;
+                if(empty($oportunity->photo)) $oportunity->photo = "images/sem_logo.png";
                 $oportunity->creator = UserDAO::getBasicUserById($oportunity->creator_id);
                 $oportunities[] = $oportunity;
             }
@@ -61,6 +63,7 @@ class OportunityDAO{
             if ($o != null) {
                 $oportunity = new stdClass();
                 $oportunity = $o;
+                if(empty($oportunity->photo)) $oportunity->photo = "images/sem_logo.png";
                 $oportunity->creator = UserDAO::getBasicUserById($oportunity->creator_id);
                 $oportunities[] = $oportunity;
             }
@@ -79,6 +82,7 @@ class OportunityDAO{
         $result = mysqli_query($connection, $sql);
         if(mysqli_num_rows($result) != 0){
             $oportunity = mysqli_fetch_object($result);
+            if(empty($oportunity->photo)) $oportunity->photo = "images/sem_logo.png";
             $oportunity->creator = UserDAO::getBasicUserById($oportunity->creator_id);
         }
         return $oportunity;
