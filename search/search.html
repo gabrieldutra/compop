@@ -17,9 +17,9 @@
 </div>
 <div class="row">
     <div class="col-xs-12">
-        <h3>Em destaque</h3>
         <div class="row">
-            <div class="col-sm-6 col-md-3" ng-repeat="op in vm.featured">
+            <h3 ng-show="vm.empty">A pequisa não retornou nenhum resultado...</h3>
+            <div class="col-sm-6 col-md-3" ng-repeat="op in vm.result">
                 <div class="card">
                     <img class="card-img-top small-img" ng-src="{{op.photo}}" alt="{{op.title}}">
                     <div class="card-block">
@@ -30,24 +30,6 @@
                     </div>
                 </div>
             </div>
-        </div>        
-        <a class="btn btn-default" href="#/newjob"><span class="glyphicon glyphicon-plus"></span> Ver mais</a>
-    </div>
-    <div class="col-xs-12">
-        <h3>Últimas adicionadas</h3>  
-        <div class="row">
-            <div class="col-sm-6 col-md-3" ng-repeat="op in vm.recent">
-                <div class="card">
-                    <img class="card-img-top small-img" ng-src="{{op.photo}}" alt="{{op.title}}">
-                    <div class="card-block">
-                        <h4 class="card-title max-lines"><b>{{op.title}}</b></h4>
-                        <p class="card-text max-lines">{{op.description}}</p>
-                        <p class="card-text"><small>última atualização:<br />{{op.updated | timeAgo}}</small></p>
-                        <a href="#" class="btn btn-primary">Ver vaga</a>
-                    </div>
-                </div>
-            </div>
-        </div>  
-        <a class="btn btn-default" href="#/newjob"><span class="glyphicon glyphicon-plus"></span> Ver mais</a>
+        </div>
     </div>
 </div>
