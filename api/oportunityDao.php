@@ -54,7 +54,7 @@ class OportunityDAO{
     */
     public static function getRecentOportunities($filter){
         $connection = Connection::getConnection();
-        $filter_sql = "SELECT * FROM oportunity WHERE oportunity.approved='1' ORDER BY created DESC";
+        $filter_sql = "SELECT * FROM oportunity WHERE oportunity.approved='1' ORDER BY updated DESC";
         if(isset($filter->limit)) $filter_sql.="  LIMIT ".$filter->limit;
         $sql = $filter_sql;
         $result = mysqli_query($connection, $sql);
