@@ -1,0 +1,53 @@
+<div class="row">
+    <div class="col-xs-12">
+        <form class="search text-center" ng-submit="vm.searchOp()">
+            <div class="row">
+                <div class="col-xs-10 col-md-offset-1 col-md-8 text-right">
+                    <input type="text" class="form-control"  ng-model="vm.search" placeholder="Estágio, IC, etc..." ng-disabled="vm.loading">
+                </div>
+                <div class="text-left">
+                    <button type="submit" class="btn btn-primary" ng-hide="vm.loading"><span class="glyphicon glyphicon-search"></span><span class="hidden-xs"> Pesquisar</span></button>
+                    <button class="btn btn-primary disabled" ng-show="vm.loading"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> <span class="hidden-xs"> Carregando...</span></button>
+                </div>
+
+            </div>
+
+        </form>        
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <h3>Em destaque</h3>
+        <div class="row">
+            <div class="col-sm-6 col-md-3" ng-repeat="op in vm.featured">
+                <div class="card">
+                    <img class="card-img-top small-img" ng-src="{{op.photo}}" alt="{{op.title}}">
+                    <div class="card-block">
+                        <h4 class="card-title max-lines"><b>{{op.title}}</b></h4>
+                        <p class="card-text max-lines">{{op.description}}</p>
+                        <p class="card-text"><small>última atualização:<br />{{op.updated | timeAgo}}</small></p>
+                        <a href="#" class="btn btn-primary">Ver vaga</a>
+                    </div>
+                </div>
+            </div>
+        </div>        
+        <a class="btn btn-default" href="#/newjob"><span class="glyphicon glyphicon-plus"></span> Ver mais</a>
+    </div>
+    <div class="col-xs-12">
+        <h3>Últimas adicionadas</h3>  
+        <div class="row">
+            <div class="col-sm-6 col-md-3" ng-repeat="op in vm.recent">
+                <div class="card">
+                    <img class="card-img-top small-img" ng-src="{{op.photo}}" alt="{{op.title}}">
+                    <div class="card-block">
+                        <h4 class="card-title max-lines"><b>{{op.title}}</b></h4>
+                        <p class="card-text max-lines">{{op.description}}</p>
+                        <p class="card-text"><small>última atualização:<br />{{op.updated | timeAgo}}</small></p>
+                        <a href="#" class="btn btn-primary">Ver vaga</a>
+                    </div>
+                </div>
+            </div>
+        </div>  
+        <a class="btn btn-default" href="#/newjob"><span class="glyphicon glyphicon-plus"></span> Ver mais</a>
+    </div>
+</div>

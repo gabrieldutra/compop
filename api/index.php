@@ -125,6 +125,38 @@ $app->get('/oportunities', function () {
     }    
 });
 
+/** GET /featured
+* @param $limit int - limit of results
+* @return JSON - $limit featured oportunities with the filter
+*/
+$app->get('/featured', function () {
+    $response = \Slim\Slim::getInstance()->response();
+    $filter = new stdClass();
+    $filter->limit = $_GET['limit'];
+    $oportunities = OportunityDAO::getFeaturedOportunities($filter);
+    if(empty($oportunities)) $response->status(204);  
+    else {
+        $response->status(200); 
+        echo json_encode($oportunities);
+    }    
+});
+
+/** GET /recent
+* @param $limit int - limit of results
+* @return JSON - $limit recent oportunities with the filter
+*/
+$app->get('/recent', function () {
+    $response = \Slim\Slim::getInstance()->response();
+    $filter = new stdClass();
+    $filter->limit = $_GET['limit'];
+    $oportunities = OportunityDAO::getRecentOportunities($filter);
+    if(empty($oportunities)) $response->status(204);  
+    else {
+        $response->status(200); 
+        echo json_encode($oportunities);
+    }    
+});
+
 /** GET /oportunities/:id
 * @param :id int - id of the oportunity to be returned
 * @return JSON - the oportunity of the id
