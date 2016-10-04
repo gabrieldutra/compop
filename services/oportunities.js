@@ -8,7 +8,8 @@
         var services = {
           getFeatured: getFeatured,
           getRecent: getRecent,
-          getResult: getResult  
+          getResult: getResult,
+          getOportunity: getOportunity  
         };
         
         return services;
@@ -33,6 +34,15 @@
             var resultUrl=baseUrl+"/oportunities";
             if(key != "")resultUrl+="?keyword="+key;
             return $http.get(resultUrl, {cache: true}).then(function(response){
+                return response;
+            });
+        }
+        
+        function getOportunity(id){
+            var oportunityUrl=baseUrl+"/oportunities/"+id;
+            return $http.get(oportunityUrl, {cache: true}).then(function(response){
+                return response;
+            }, function(response){
                 return response;
             });
         }
