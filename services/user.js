@@ -8,6 +8,7 @@
         var services = {
             login: login,
             register: register,
+            update: update,
             currentUser: currentUser,
             clearUserData: clearUserData,
             addInterest: addInterest,
@@ -40,12 +41,18 @@
             });
         }
         
+        function update(user){
+            return $http.put(baseUrl+"/users/"+user.id,user).then(function(response){
+                return response;
+            });
+        }
+        
         function currentUser(){ 
             return $http.get(baseUrl+"/users/0").then(function(response){
                 return response.data;
             }, function(response){
                 services.clearUserData();
-                return {};
+                return response;
             });
         }
         

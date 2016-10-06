@@ -151,7 +151,7 @@ class UserDAO {
             if(!empty($text)) $text.=" ,";
             $text.="about='$user->about'";
         }
-        if(isset($user->password)) {
+        if(strlen($user->password) > 5) {
             if(!empty($text)) $text.=" ,";
             $user->password = md5($user->password);
             $text.="password='$user->password'";
