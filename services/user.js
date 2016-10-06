@@ -7,6 +7,7 @@
         
         var services = {
             login: login,
+            register: register,
             currentUser: currentUser,
             clearUserData: clearUserData
         };
@@ -27,6 +28,12 @@
                     $http.defaults.headers.common['AuthKey'] = response.data.auth_key; 
                     $cookieStore.put('globals', $rootScope.globals);                    
                 }
+                return response;
+            });
+        }
+        
+        function register(user){
+            return $http.post(baseUrl+"/users",user).then(function(response){
                 return response;
             });
         }

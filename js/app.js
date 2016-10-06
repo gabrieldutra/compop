@@ -1,5 +1,5 @@
 (function(){
-    angular.module('compOp', ['ngSanitize','ngRoute', 'ngCookies','timeAgo','angular-loading-bar', 'ngAnimate','ng-showdown'])
+    angular.module('compOp', ['ngSanitize','ngRoute', 'ngCookies','timeAgo','angular-loading-bar', 'ngAnimate','ng-showdown','ui.utils.masks'])
     .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
         cfpLoadingBarProvider.includeSpinner = false;
     }]).run(['$rootScope', '$cookieStore', '$http', function ($rootScope, $cookieStore, $http){
