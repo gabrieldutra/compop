@@ -26,7 +26,7 @@
                         <h4 class="card-title max-lines"><b>{{op.title}}</b></h4>
                         <p class="card-text max-lines text-justify">{{op.description}}</p>
                         <p class="card-text"><small>última atualização:<br />{{op.updated | timeAgo}}</small></p>
-                        <a ng-href="oportunity/{{op.id}}" class="btn btn-primary">Ver vaga</a>
+                        <a ng-href="oportunity/{{op.id}}" class="btn" ng-class="op.status == 0 ? 'btn-success' : 'btn-danger'">Ver vaga</a>
                     </div>
                 </div>
             </div>
@@ -43,7 +43,7 @@
                         <h4 class="card-title max-lines"><b>{{op.title}}</b></h4>
                         <p class="card-text max-lines text-justify">{{op.description}}</p>
                         <p class="card-text"><small>última atualização:<br />{{op.updated | timeAgo}}</small></p>
-                        <a ng-href="oportunity/{{op.id}}" class="btn btn-primary">Ver vaga</a>
+                        <a ng-href="oportunity/{{op.id}}" class="btn" ng-class="op.status == 0 ? 'btn-success' : 'btn-danger'">Ver vaga</a>
                     </div>
                 </div>
             </div>

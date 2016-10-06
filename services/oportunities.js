@@ -40,8 +40,12 @@
         
         function getOportunity(id){
             var oportunityUrl=baseUrl+"/oportunities/"+id;
+            var interestedUrl=baseUrl+"/interests?oportunity_id="+id;
             return $http.get(oportunityUrl, {cache: true}).then(function(response){
-                return response;
+                return $http.get(interestedUrl,{cache: true}).then(function(responseI){
+                    response.data.interested = responseI.data;
+                    return response;
+                });
             }, function(response){
                 return response;
             });

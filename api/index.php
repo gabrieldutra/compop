@@ -5,6 +5,7 @@ require 'Slim/Slim.php';
 require 'connection.php';
 require 'userDao.php';
 require 'oportunityDao.php';
+require 'interestDao.php';
 
 date_default_timezone_set("America/Sao_Paulo");
 
