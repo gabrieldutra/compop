@@ -1,0 +1,62 @@
+<div class="row">
+    <h3 ng-show="globals.currentLogin" class="col-xs-10 col-xs-offset-1 text-center">Oops, parece que você já entrou no sistema...</h3>
+    <div class="col-md-6 text-center" ng-hide="globals.currentLogin">
+        <h2>Login</h2>
+        <div ng-show="vm.errorL" class="alert alert-danger col-sm-8 col-sm-offset-2" role="alert">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Erro:</span> O e-mail ou a senha estavam incorretos... Tente novamente!
+        </div>
+        <div ng-show="vm.loadingL"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span></div>
+        <form class="col-sm-8 col-sm-offset-2" ng-submit="vm.login()" ng-hide="vm.loadingL">
+            <div class="form-group" ng-class="vm.errorL ? 'has-error' : ''">
+                <input type="email" class="form-control" ng-model="vm.email" id="email" placeholder="E-mail *" required>
+            </div>
+            <div class="form-group" ng-class="vm.errorL ? 'has-error' : ''">
+                <input type="password" class="form-control" ng-model="vm.password" id="password" placeholder="Senha *" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Entrar</button>
+        </form>
+    </div>
+    <div class="col-md-6 text-center" ng-hide="globals.currentLogin">
+        <h2>Ainda não é cadastrado?</h2>
+        <div ng-show="vm.successR" class="alert alert-success col-sm-8 col-sm-offset-2" role="alert">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Sucesso:</span> Cadastrado com sucesso!
+        </div>
+        <div ng-show="vm.errorR" class="alert alert-danger col-sm-8 col-sm-offset-2" role="alert">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Erro:</span> E-mail já cadastrado!
+        </div>
+        <div ng-show="vm.loadingR"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span></div>
+        <form class="col-sm-8 col-sm-offset-2" ng-submit="vm.register()" ng-hide="vm.loadingR">
+            <div class="form-group">
+                <input type="text" class="form-control" ng-model="vm.user.name" id="name" placeholder="Nome *" pattern=".{6,}" required title="O nome precisa ter 6 caracteres no mínimo">
+            </div>
+            <div class="form-group" ng-class="vm.errorR ? 'has-error' : ''">
+                <input type="email" class="form-control" ng-model="vm.user.email" id="email" placeholder="E-mail *" required>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" ng-model="vm.user.password" id="password" placeholder="Senha *" pattern=".{6,}"
+                    required title="A senha precisa ter 6 caracteres no mínimo">
+            </div>
+            <div class="form-group">
+                <input type="number" class="form-control" ng-model="vm.user.registry" id="registry" placeholder="Número de matrícula (caso possua)">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" ng-model="vm.user.phone" id="phone" placeholder="Telefone" ui-br-phone-number>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" ng-model="vm.user.mobile_phone" id="mobile_phone" placeholder="Celular" ui-br-phone-number>
+            </div>
+            <div class="form-group">
+                <textarea class="form-control" ng-model="vm.user.about" rows="3" placeholder="Sobre você"></textarea>
+            </div>
+            <div class="checkbox">
+                <label>
+                <input type="checkbox" ng-model="vm.user.receive_email"> Desejo receber e-mails sobre oportunidades de meu interesse
+                </label>
+            </div>
+            <button type="submit" class="btn btn-primary">Cadastrar</button>
+        </form>
+    </div>
+</div>

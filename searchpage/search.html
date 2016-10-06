@@ -16,17 +16,18 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-xs-12">
+    <div class="col-xs-12 text-center">
         <div class="row">
-            <h3 ng-show="vm.empty">A pequisa não retornou nenhum resultado...</h3>
+            <div ng-show="vm.loading"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span></div>
+            <h3 ng-show="vm.empty" class="col-xs-10 col-xs-offset-1 text-center">A pequisa não retornou nenhum resultado...</h3>
             <div class="col-sm-6 col-md-3" ng-repeat="op in vm.result">
                 <div class="card">
                     <img class="card-img-top small-img" ng-src="{{op.photo}}" alt="{{op.title}}">
                     <div class="card-block">
                         <h4 class="card-title max-lines"><b>{{op.title}}</b></h4>
-                        <p class="card-text max-lines">{{op.description}}</p>
+                        <p class="card-text max-lines text-justify">{{op.description}}</p>
                         <p class="card-text"><small>última atualização:<br />{{op.updated | timeAgo}}</small></p>
-                        <a href="#" class="btn btn-primary">Ver vaga</a>
+                        <a ng-href="oportunity/{{op.id}}" class="btn" ng-class="op.status == 0 ? 'btn-success' : 'btn-danger'">Ver vaga</a>
                     </div>
                 </div>
             </div>

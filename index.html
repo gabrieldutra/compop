@@ -2,9 +2,10 @@
 <html lang='pt_BR'>
 
 <head>
+    <base href="/" />
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>Oportunidades em Computação - CEFET/MG</title>
 
     <link rel="stylesheet" href="css/reset.css">
@@ -12,7 +13,6 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/loading-bar.css">
     <link rel="stylesheet" href="css/master.css">
-
 </head>
 
 <body ng-app="compOp">
@@ -27,23 +27,50 @@
     <script src="js/angular-sanitize.js"></script>
     <script src="js/angular-animate.min.js"></script>
     <script src="js/angular-route.min.js"></script>
+    <script src="js/angular-cookies.js"></script>
     <script src="js/timeAgo.js"></script>
     <script src="js/loading-bar.js"></script>
+    <script src="js/showdown.min.js"></script>
+    <script src="js/ng-showdown.js"></script>
+    <script src="js/angular-input-masks-dependencies.min.js"></script>
+    <script src="js/angular-input-masks.br.min.js"></script>
 
     <script src="js/app.js"></script>
 
     <script src="js/bootstrap.min.js"></script>
     
     <!--Services-->
+    <script src="services/user.js"></script>
     <script src="services/oportunities.js"></script>
+    
+    <!--Navbar-->
+    <script src="navbar/navbar.js"></script>
 
     <!--Home-->
     <script src="home/home.js"></script>
     <script src="home/home.route.js"></script>
+
+    <!--Login-->
+    <script src="loginpage/login.js"></script>
+    <script src="loginpage/login.route.js"></script>
+    
+    <!--Profile-->
+    <script src="profilepage/profile.js"></script>
+    <script src="profilepage/profile.route.js"></script>
     
     <!--Search-->
-    <script src="search/search.js"></script>
-    <script src="search/search.route.js"></script>
+    <script src="searchpage/search.js"></script>
+    <script src="searchpage/search.route.js"></script>
+    
+    <!--Oportunity-->
+    <script src="oportunity/oportunity.js"></script>
+    <script src="oportunity/oportunity.route.js"></script>
+    
+    <!--General-->
+    <script src="generalpage/general.js"></script>
+    
+    <!--About-->
+    <script src="aboutpage/about.route.js"></script>
 
 </body>
 

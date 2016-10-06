@@ -1,0 +1,38 @@
+<div class="row">
+    <div class="col-xs-12 text-center">
+        <div ng-hide="(vm.loaded || vm.error)"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span></div>
+        <h3 ng-show="vm.error">Oops..</h3>
+        <div ng-show="vm.error" class="alert alert-danger" role="alert">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Erro:</span> A oportunidade que você estava tentando ver não existe ou você não possuí
+            permissões suficientes... <a href="javascript:history.back();" class="alert-link">Clique aqui para voltar</a>
+        </div>
+        <div class="col-xs-12 text-center" ng-show="vm.loaded">
+            <div class="card">
+                <img class="card-img-top small-img" ng-src="{{vm.oportunity.photo}}" alt="{{vm.oportunity.title}}">
+                <div class="card-block">
+                    <h2 class="card-title"><b>{{vm.oportunity.title}}</b></h2>
+                    <p class="card-text">{{vm.oportunity.creator.name}} - <small>{{vm.oportunity.creator.about}}</small></p>
+                    <p class="card-text"><small>última atualização: {{vm.oportunity.updated | timeAgo}}</small></p>
+                    <br>
+                    <p class="card-text text-justify" markdown-to-html="vm.oportunity.description"></p>
+                    <br>
+                    <div class="alert" ng-class="vm.oportunity.status == 0 ? 'alert-success' : 'alert-danger'" role="alert">
+                        <h3>Como se inscrever</h3>
+                        <p class="card-text text-justify" markdown-to-html="vm.oportunity.inscription"></p>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn" ng-class="{'disabled': !vm.interestButton, 'btn-success': !vm.interested, 'btn-danger': vm.interested}" ng-click="vm.interest()"><span class="glyphicon" ng-class="vm.interestButton ? 'glyphicon-star' : 'glyphicon-refresh glyphicon-refresh-animate'"></span> {{vm.oportunity.interested.length}} interessado<span ng-show="(vm.oportunity.interested.length != 1)">s</span></button>
+                        <button type="button" class="btn dropdown-toggle" ng-class="vm.interested ? 'btn-danger' : 'btn-success'" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li ng-repeat="user in vm.oportunity.interested"><a ng-href="user/{{user.user_id}}">{{user.user_name}}</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

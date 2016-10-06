@@ -19,6 +19,12 @@ h1, h2, h3, h4, h5, h6, p, a, label, button, span {
     font-family: 'Raleway', sans-serif;
 }
 
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
 .row {
   padding-bottom: 20px;
 }
@@ -89,8 +95,8 @@ h1, h2, h3, h4, h5, h6, p, a, label, button, span {
 .card {
   position: relative;
   display: block;
-  margin-bottom: 0.75rem;
-  background-color: #fff;
+  margin-bottom: 2.75rem;
+  background-color: #fcfcfc;
   border-radius: 0.25rem;
   border: 1px solid rgba(0, 0, 0, 0.125);
 }
@@ -322,7 +328,6 @@ h1, h2, h3, h4, h5, h6, p, a, label, button, span {
   }
   .card-deck .card {
     display: table-cell;
-    margin-bottom: 0;
     vertical-align: top;
   }
   .card-deck-wrapper {

@@ -1,10 +1,12 @@
 <?php
+date_default_timezone_set('America/Sao_Paulo');
 require 'Slim/Slim.php';
 \Slim\Slim::registerAutoloader();
 
 require 'connection.php';
 require 'userDao.php';
 require 'oportunityDao.php';
+require 'interestDao.php';
 
 date_default_timezone_set("America/Sao_Paulo");
 
@@ -91,7 +93,7 @@ $app->put('/users/:id', function ($id) {
     $validateKey = UserDAO::checkAuthorizationKey($authorization);
     $data = json_decode($request->getBody());    
     if($validateKey->result){
-        if($validateKey->user->level >= 2){
+        if($validateKey->user->level >= 2 && $id != 0){
             $result = UserDAO::updateUser($id, $data);            
             $response->status($result->status);
         } else if($id == 0 || $id == $validateKey->user->id){

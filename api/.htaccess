@@ -1,3 +1,4 @@
+SetEnv TZ America/Sao_Paulo
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^ index.php [QSA,L]

@@ -6,9 +6,9 @@
         vm.result = [];
         vm.loading = true;
         vm.empty=false;
-        vm.search=$routeParams.key;
+        vm.search=$routeParams.key || "";
         vm.loadOportunities = function(){
-            oportunityData.getResult($routeParams.key).then(function(response){
+            oportunityData.getResult(vm.search).then(function(response){
                 vm.result = response.data;
                 if(response.status == 204) vm.empty=true;
                 vm.loading=false;

@@ -1,5 +1,5 @@
 (function(){
-    angular.module('compOp').config(function($routeProvider){
+    angular.module('compOp').config(function($locationProvider, $routeProvider){
         $routeProvider
         .when('/', {
             templateUrl: 'home/home.html',
@@ -8,5 +8,6 @@
         }).otherwise({
             redirectTo: '/'
         });
+        $locationProvider.html5Mode(true);
     });
 }())
