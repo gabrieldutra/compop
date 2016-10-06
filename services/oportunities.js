@@ -18,7 +18,7 @@
             var featuredUrl=baseUrl+"/featured";
             if(limit != 0)featuredUrl+="?limit="+limit;
             return $http.get(featuredUrl, {cache: true}).then(function(response){
-                return response.data;
+                return response;
             });
         }
         
@@ -26,7 +26,7 @@
             var recentUrl=baseUrl+"/recent";
             if(limit != 0)recentUrl+="?limit="+limit;
             return $http.get(recentUrl, {cache: true}).then(function(response){
-                return response.data;
+                return response;
             });
         }
         

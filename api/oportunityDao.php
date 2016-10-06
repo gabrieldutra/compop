@@ -10,7 +10,7 @@ class OportunityDAO{
         $filter_sql = "WHERE (title LIKE '%".$filter->keyword."%' OR description LIKE '%".$filter->keyword."%')";
         if(isset($filter->status)) $filter_sql.=" AND status=".$filter->status;
         if(isset($filter->approved)) $filter_sql.=" AND approved=".$filter->approved;
-        $sql = "SELECT * FROM oportunity ".$filter_sql." ORDER BY id DESC";
+        $sql = "SELECT * FROM oportunity ".$filter_sql." ORDER BY updated DESC";
         $result = mysqli_query($connection, $sql);
         $oportunities = array();
         while ($o = mysqli_fetch_object($result)) {

@@ -6,11 +6,12 @@
             <span class="sr-only">Erro:</span> A oportunidade que você estava tentando ver não existe ou você não possuí
             permissões suficientes... <a href="javascript:history.back();" class="alert-link">Clique aqui para voltar</a>
         </div>
-        <div class="col-xs-12" ng-show="vm.loaded">
+        <div class="col-xs-12 text-center" ng-show="vm.loaded">
             <div class="card">
                 <img class="card-img-top small-img" ng-src="{{vm.oportunity.photo}}" alt="{{vm.oportunity.title}}">
                 <div class="card-block">
                     <h2 class="card-title"><b>{{vm.oportunity.title}}</b></h2>
+                    <p class="card-text">{{vm.oportunity.creator.name}} - <small>{{vm.oportunity.creator.about}}</small></p>
                     <p class="card-text"><small>última atualização: {{vm.oportunity.updated | timeAgo}}</small></p>
                     <br>
                     <p class="card-text text-justify" markdown-to-html="vm.oportunity.description"></p>
