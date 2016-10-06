@@ -9,7 +9,8 @@
           getFeatured: getFeatured,
           getRecent: getRecent,
           getResult: getResult,
-          getOportunity: getOportunity  
+          getOportunity: getOportunity,
+          getInterested: getInterested  
         };
         
         return services;
@@ -40,13 +41,19 @@
         
         function getOportunity(id){
             var oportunityUrl=baseUrl+"/oportunities/"+id;
-            var interestedUrl=baseUrl+"/interests?oportunity_id="+id;
             return $http.get(oportunityUrl, {cache: true}).then(function(response){
-                return $http.get(interestedUrl,{cache: true}).then(function(responseI){
+                return services.getInterested(id).then(function(responseI){
                     response.data.interested = responseI.data;
                     return response;
                 });
             }, function(response){
+                return response;
+            });
+        }
+
+        function getInterested(id){
+            var interestedUrl=baseUrl+"/interests?oportunity_id="+id;
+            return $http.get(interestedUrl).then(function(response){
                 return response;
             });
         }

@@ -9,7 +9,9 @@
             login: login,
             register: register,
             currentUser: currentUser,
-            clearUserData: clearUserData
+            clearUserData: clearUserData,
+            addInterest: addInterest,
+            removeInterest: removeInterest
         };
         
         return services;
@@ -51,6 +53,19 @@
             $rootScope.globals = {};
             $cookieStore.remove('globals');
             $http.defaults.headers.common.AuthKey = '';
+        }
+
+        function addInterest(oid){
+            var obj={"oportunity_id": oid}
+            return $http.post(baseUrl+"/interests", obj).then(function(response){
+                return response;
+            });
+        }
+
+        function removeInterest(oid){
+            return $http.delete(baseUrl+"/interests/"+oid).then(function(response){
+                return response;
+            });
         }
       
     }

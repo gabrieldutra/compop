@@ -1,7 +1,7 @@
 (function(){
     angular.module('compOp')
     .controller('loginCtrl',loginCtrl);
-    function loginCtrl($location, userData){
+    function loginCtrl($location, $window, userData){
         var vm = this;
         vm.email = "";
         vm.password = "";
@@ -34,5 +34,6 @@
                 vm.successR=false;
             });
         }
+        $window.scrollTo(0, 0);
     }
 }())
