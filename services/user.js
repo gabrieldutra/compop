@@ -2,7 +2,7 @@
     angular.module('compOp')
     .factory("userData",userData);
     
-    function userData($http, $cookieStore, $rootScope){
+    function userData($http, $cookieStore, $rootScope, oportunityData){
         var baseUrl = "api";
         
         var services = {
@@ -12,7 +12,8 @@
             currentUser: currentUser,
             clearUserData: clearUserData,
             addInterest: addInterest,
-            removeInterest: removeInterest
+            removeInterest: removeInterest,
+            getMyInterests: getMyInterests
         };
         
         return services;
@@ -72,6 +73,16 @@
         function removeInterest(oid){
             return $http.delete(baseUrl+"/interests/"+oid).then(function(response){
                 return response;
+            });
+        }
+
+        function getMyInterests(){
+            if($rootScope.globals.currentLogin) return oportunityData.getUserInterests($rootScope.globals.currentLogin.user.id).then(function(response){
+                return response.data;
+            });
+            else
+            return oportunityData.getUserInterests(-1).then(function(response){
+                return response.data;
             });
         }
       

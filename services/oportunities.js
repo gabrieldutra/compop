@@ -10,7 +10,8 @@
           getRecent: getRecent,
           getResult: getResult,
           getOportunity: getOportunity,
-          getInterested: getInterested  
+          getInterested: getInterested,
+          getUserInterests:getUserInterests  
         };
         
         return services;
@@ -54,6 +55,14 @@
         function getInterested(id){
             var interestedUrl=baseUrl+"/interests?oportunity_id="+id;
             return $http.get(interestedUrl).then(function(response){
+                return response;
+            });
+        }
+
+        function getUserInterests(uid){
+            var resultUrl=baseUrl+"/oportunities";
+            resultUrl+="?user="+uid;
+            return $http.get(resultUrl).then(function(response){
                 return response;
             });
         }

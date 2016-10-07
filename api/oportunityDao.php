@@ -19,7 +19,7 @@ class OportunityDAO{
                 $oportunity = $o;
                 if(empty($oportunity->photo)) $oportunity->photo = "images/sem_logo.png";
                 $oportunity->creator = UserDAO::getBasicUserById($oportunity->creator_id);
-                $oportunities[] = $oportunity;
+                if(!isset($filter->user_i) || !empty(InterestDAO::getInterests($filter->user_i, $oportunity->id))) $oportunities[] = $oportunity;
             }
         }
         return $oportunities;
