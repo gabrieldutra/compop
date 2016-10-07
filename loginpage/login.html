@@ -2,7 +2,7 @@
     <h3 ng-show="globals.currentLogin" class="col-xs-10 col-xs-offset-1 text-center">Oops, parece que você já entrou no sistema...</h3>
     <div class="col-md-6 text-center" ng-hide="globals.currentLogin">
         <h2>Login</h2>
-        <div ng-show="vm.errorL" class="alert alert-danger col-sm-8 col-sm-offset-2" role="alert">
+        <div ng-show="vm.errorL && !vm.loadingL" class="alert alert-danger col-sm-8 col-sm-offset-2" role="alert">
             <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
             <span class="sr-only">Erro:</span> O e-mail ou a senha estavam incorretos... Tente novamente!
         </div>
@@ -19,11 +19,11 @@
     </div>
     <div class="col-md-6 text-center" ng-hide="globals.currentLogin">
         <h2>Ainda não é cadastrado?</h2>
-        <div ng-show="vm.successR" class="alert alert-success col-sm-8 col-sm-offset-2" role="alert">
+        <div ng-show="vm.successR && !vm.loadingR" class="alert alert-success col-sm-8 col-sm-offset-2" role="alert">
             <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
             <span class="sr-only">Sucesso:</span> Cadastrado com sucesso!
         </div>
-        <div ng-show="vm.errorR" class="alert alert-danger col-sm-8 col-sm-offset-2" role="alert">
+        <div ng-show="vm.errorR && !vm.loadingR" class="alert alert-danger col-sm-8 col-sm-offset-2" role="alert">
             <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
             <span class="sr-only">Erro:</span> E-mail já cadastrado!
         </div>
