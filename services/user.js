@@ -11,6 +11,7 @@
             update: update,
             currentUser: currentUser,
             clearUserData: clearUserData,
+            getUser: getUser,
             addInterest: addInterest,
             removeInterest: removeInterest,
             getMyInterests: getMyInterests
@@ -54,6 +55,12 @@
             }, function(response){
                 services.clearUserData();
                 return response;
+            });
+        }
+        
+        function getUser(id){ 
+            return $http.get(baseUrl+"/users/"+id).then(function(response){
+                return response.data;
             });
         }
         
