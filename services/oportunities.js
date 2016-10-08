@@ -9,6 +9,7 @@
           getFeatured: getFeatured,
           getRecent: getRecent,
           getResult: getResult,
+          send: send,
           getOportunity: getOportunity,
           getInterested: getInterested,
           getUserInterests:getUserInterests  
@@ -30,6 +31,11 @@
             return $http.get(recentUrl, {cache: true}).then(function(response){
                 return response;
             });
+        }
+
+        function send(oportunity){
+            var send=baseUrl+"/oportunities";
+            return $http.post(send, oportunity)
         }
         
         function getResult(key){

@@ -1,0 +1,56 @@
+<div class="row">
+    <h3 ng-show="!globals.currentLogin" class="col-xs-10 col-xs-offset-1 text-center">Oops, parece que você não logou...</h3>
+    <div class="col-md-6 text-center" ng-show="globals.currentLogin">
+        <h2>Enviar uma vaga</h2>
+        <div ng-show="vm.success && !vm.loading" class="alert alert-success col-sm-8 col-sm-offset-2" role="alert">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Sucesso:</span> A vaga foi enviada para aprovação!
+        </div>
+        <div ng-show="vm.error && !vm.loading" class="alert alert-danger col-sm-8 col-sm-offset-2" role="alert">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Erro:</span> Já existe uma vaga com esse mesmo título!
+        </div>
+        <div ng-show="vm.loading"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span></div>
+        <form class="col-sm-8 col-sm-offset-2" ng-submit="vm.send()" ng-hide="vm.loading">
+            <div class="form-group">
+                <input type="text" class="form-control" ng-class="vm.error ? 'has-error' : ''" ng-model="vm.oportunity.title" id="title"
+                    placeholder="Título *" pattern=".{6,}" required title="O título precisa ter 6 caracteres no mínimo">
+            </div>
+            <div class="form-group">
+                <textarea class="form-control" ng-model="vm.oportunity.description" rows="10" placeholder="Descrição (Markdown permitido) *" required></textarea>
+            </div>
+            <div class="form-group">
+                <textarea class="form-control" ng-model="vm.oportunity.inscription" rows="6" placeholder="Como se inscrever (Markdown permitido) *" required></textarea>
+            </div>
+            <div class="form-group">
+                <select id="status" ng-model="vm.oportunity.status" class="form-control">
+                    <option value="0">Aberta</option>
+                    <option value="1">Fechada</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Foto da vaga</label>
+                <input type="text" class="form-control" ng-model="vm.oportunity.photo" placeholder="Foto da vaga (URL)">
+            </div>
+            <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
+    </div>
+    <div class="col-md-6 text-center" ng-show="globals.currentLogin">
+        <h2>Prévia</h2>
+        <div class="card">
+            <img class="card-img-top small-img" ng-src="{{vm.oportunity.photo || 'images/sem_logo.png'}}" alt="{{vm.oportunity.title}}">
+            <div class="card-block">
+                <h2 class="card-title"><b>{{vm.oportunity.title}}</b></h2>
+                <p class="card-text"><a ng-href="user/{{vm.oportunity.creator.id}}">{{vm.oportunity.creator.name}}</a></p>
+                <p class="card-text"><small>última atualização: 2 horas atrás</small></p>
+                <br>
+                <p class="card-text text-justify" markdown-to-html="vm.oportunity.description"></p>
+                <br>
+                <div class="alert" ng-class="vm.oportunity.status == 0 ? 'alert-success' : 'alert-danger'" role="alert">
+                    <h3>Como se inscrever</h3>
+                    <p class="card-text text-justify" markdown-to-html="vm.oportunity.inscription"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
