@@ -1,0 +1,47 @@
+<div class="row text-center">
+    <div ng-show="vm.loading"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span></div>
+    <div class="col-xs-12" ng-show="vm.error">
+        <h3>Oops..</h3>
+        <div class="alert alert-danger" role="alert">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Erro:</span> O usuário que você estava tentando ver não existe... <a href="javascript:history.back();" class="alert-link">Clique aqui para voltar</a>
+        </div>
+    </div>
+    <div class="col-md-6 col-md-offset-3 text-center" ng-hide="vm.loading || vm.error">
+        <h2>{{vm.user.name}}</h2><br>
+        <div class="row" ng-show="vm.user.about">
+            <div class="col-sm-2 text-center"><b>Sobre:</b></div>
+            <div class="col-sm-10 text-left">{{vm.user.about}}</div>
+        </div>
+        <h3 ng-show="vm.user.phone || vm.user.mobile_phone || vm.user.registry || vm.user.email">Informações pessoais</h3>
+        <div class="row" ng-show="vm.user.registry">
+            <div class="col-sm-2 text-center"><b>Matrícula:</b></div>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" ng-model="vm.user.registry" placeholder="Matrícula" disabled>
+            </div>
+        </div>
+        <div class="row" ng-show="vm.user.email">
+            <div class="col-sm-2 text-center"><b>E-mail:</b></div>
+            <div class="col-sm-10">
+                <input type="email" class="form-control" ng-model="vm.user.email" placeholder="E-mail" disabled>
+            </div>
+        </div>
+        <div class="row" ng-show="vm.user.phone">
+            <div class="col-sm-2 text-center"><b>Telefone:</b></div>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" ng-model="vm.user.phone" placeholder="Telefone" ui-br-phone-number disabled>
+            </div>
+        </div>
+        <div class="row" ng-show="vm.user.mobile_phone">
+            <div class="col-sm-2 text-center"><b>Celular:</b></div>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" ng-model="vm.user.mobile_phone" placeholder="Celular" ui-br-phone-number disabled>  
+            </div>
+        </div>
+        <h4 ng-show="!vm.interests">O usuário não possuí nenhum interesse ainda...</h4>
+        <h3 ng-show="vm.interests">Interesses</h3>
+        <div class="col-xs-12" ng-repeat="interest in vm.interests">
+            <a ng-href="oportunity/{{interest.id}}">{{interest.title}}</a>
+        </div>
+    </div>
+</div>

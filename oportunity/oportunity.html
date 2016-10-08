@@ -12,7 +12,7 @@
                 <img class="card-img-top small-img" ng-src="{{vm.oportunity.photo}}" alt="{{vm.oportunity.title}}">
                 <div class="card-block">
                     <h2 class="card-title"><b>{{vm.oportunity.title}}</b></h2>
-                    <p class="card-text">{{vm.oportunity.creator.name}} - <small>{{vm.oportunity.creator.about}}</small></p>
+                    <p class="card-text"><a ng-href="user/{{vm.oportunity.creator.id}}">{{vm.oportunity.creator.name}}</a></p>
                     <p class="card-text"><small>última atualização: {{vm.oportunity.updated | timeAgo}}</small></p>
                     <br>
                     <p class="card-text text-justify" markdown-to-html="vm.oportunity.description"></p>

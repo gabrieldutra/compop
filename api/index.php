@@ -118,6 +118,7 @@ $app->get('/oportunities', function () {
     $filter->keyword = $_GET['keyword'];
     $filter->approved = 1;
     if(isset($_GET["status"])) $filter->status = $_GET['status'];
+    if(isset($_GET["user"])) $filter->user_i = $_GET['user'];
     if(isset($_GET["approved"]) && $validateKey->result && $validateKey->user->level >= 1) $filter->approved = $_GET['approved'];
     $oportunities = OportunityDAO::getOportunities($filter);
     if(empty($oportunities)) $response->status(204);  
