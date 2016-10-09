@@ -13,6 +13,7 @@ date_default_timezone_set("America/Sao_Paulo");
 
 $app = new \Slim\Slim();
 $app->response()->header('Content-Type', 'application/json;charset=utf-8');
+$app->config('debug', false);
 
 /** POST /login
 * @param Body - Object with {"email": "email@example.com", "password": "passwd"} 
@@ -51,7 +52,7 @@ $app->get('/users/:id', function ($id) {
     $response = \Slim\Slim::getInstance()->response();
     $authorization = \Slim\Slim::getInstance()->request->headers->get("AuthKey");
     $validateKey = UserDAO::checkAuthorizationKey($authorization);
-    $interests = $_GET["interests"];
+    if(isset($_GET["interests"])) $interests = $_GET["interests"];
     if($validateKey->result && ($id == 0 || $id == $validateKey->user->id)){
         $user = $validateKey->user; 
         $response->status(200);          
@@ -115,7 +116,7 @@ $app->get('/oportunities', function () {
     $authorization = \Slim\Slim::getInstance()->request->headers->get("AuthKey");
     $validateKey = UserDAO::checkAuthorizationKey($authorization);
     $filter = new stdClass();
-    $filter->keyword = $_GET['keyword'];
+    if(isset($_GET["keyword"])) $filter->keyword = $_GET['keyword'];
     $filter->approved = 1;
     if(isset($_GET["status"])) $filter->status = $_GET['status'];
     if(isset($_GET["user"])) $filter->user_i = $_GET['user'];
@@ -135,7 +136,7 @@ $app->get('/oportunities', function () {
 $app->get('/featured', function () {
     $response = \Slim\Slim::getInstance()->response();
     $filter = new stdClass();
-    $filter->limit = $_GET['limit'];
+    if(isset($_GET['limit'])) $filter->limit = $_GET['limit'];
     $oportunities = OportunityDAO::getFeaturedOportunities($filter);
     if(empty($oportunities)) $response->status(204);  
     else {
@@ -151,7 +152,7 @@ $app->get('/featured', function () {
 $app->get('/recent', function () {
     $response = \Slim\Slim::getInstance()->response();
     $filter = new stdClass();
-    $filter->limit = $_GET['limit'];
+    if(isset($_GET['limit'])) $filter->limit = $_GET['limit'];
     $oportunities = OportunityDAO::getRecentOportunities($filter);
     if(empty($oportunities)) $response->status(204);  
     else {
@@ -250,8 +251,8 @@ $app->delete('/oportunities/:id', function ($id) {
 $app->get('/interests', function () {
     $response = \Slim\Slim::getInstance()->response();
     $authorization = \Slim\Slim::getInstance()->request->headers->get("AuthKey");
-    if(is_numeric($_GET['user_id'])) $uid = $_GET['user_id'];
-    if(is_numeric($_GET['oportunity_id'])) $oid = $_GET['oportunity_id'];
+    if(isset($_GET['user_id']) && is_numeric($_GET['user_id'])) $uid = $_GET['user_id'];
+    if(isset($_GET['oportunity_id']) && is_numeric($_GET['oportunity_id'])) $oid = $_GET['oportunity_id'];
     $interests = InterestDAO::getInterests($uid,$oid);
     if(empty($interests)) $response->status(204);  
     else {
