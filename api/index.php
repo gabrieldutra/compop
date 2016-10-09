@@ -135,7 +135,7 @@ $app->get('/oportunities', function () {
 $app->get('/featured', function () {
     $response = \Slim\Slim::getInstance()->response();
     $filter = new stdClass();
-    if(isset($_GET['limit']) $filter->limit = $_GET['limit'];
+    if(isset($_GET['limit'])) $filter->limit = $_GET['limit'];
     $oportunities = OportunityDAO::getFeaturedOportunities($filter);
     if(empty($oportunities)) $response->status(204);  
     else {
@@ -151,7 +151,7 @@ $app->get('/featured', function () {
 $app->get('/recent', function () {
     $response = \Slim\Slim::getInstance()->response();
     $filter = new stdClass();
-    if(isset($_GET['limit']) $filter->limit = $_GET['limit'];
+    if(isset($_GET['limit'])) $filter->limit = $_GET['limit'];
     $oportunities = OportunityDAO::getRecentOportunities($filter);
     if(empty($oportunities)) $response->status(204);  
     else {
