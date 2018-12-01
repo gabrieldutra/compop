@@ -251,6 +251,8 @@ $app->delete('/oportunities/:id', function ($id) {
 $app->get('/interests', function () {
     $response = \Slim\Slim::getInstance()->response();
     $authorization = \Slim\Slim::getInstance()->request->headers->get("AuthKey");
+    $uid = null;
+    $oid = null;
     if(isset($_GET['user_id']) && is_numeric($_GET['user_id'])) $uid = $_GET['user_id'];
     if(isset($_GET['oportunity_id']) && is_numeric($_GET['oportunity_id'])) $oid = $_GET['oportunity_id'];
     $interests = InterestDAO::getInterests($uid,$oid);

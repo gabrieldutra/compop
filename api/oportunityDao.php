@@ -7,21 +7,27 @@ class OportunityDAO{
     */
     public static function getOportunities($filter){
         $connection = Connection::getConnection();
-        $filter_sql = "WHERE (title LIKE '%".$filter->keyword."%' OR description LIKE '%".$filter->keyword."%')";
+        $filter_sql = "";
+        if(isset($filter->keyword)) {
+            $filter_sql = "WHERE (title LIKE '%".$filter->keyword."%' OR description LIKE '%".$filter->keyword."%')";
+        }
+        
         if(isset($filter->status)) $filter_sql.=" AND status=".$filter->status;
         if(isset($filter->approved)) $filter_sql.=" AND approved=".$filter->approved;
         $sql = "SELECT * FROM oportunity ".$filter_sql." ORDER BY updated DESC";
         $result = mysqli_query($connection, $sql);
         $oportunities = array();
-        while ($o = mysqli_fetch_object($result)) {
-            if ($o != null) {
-                $oportunity = new stdClass();
-                $oportunity = $o;
-                if(empty($oportunity->photo)) $oportunity->photo = "images/sem_logo.png";
-                $oportunity->creator = UserDAO::getBasicUserById($oportunity->creator_id);
-                if(!isset($filter->user_i) || !empty(InterestDAO::getInterests($filter->user_i, $oportunity->id))) $oportunities[] = $oportunity;
+        if($result) {
+            while ($o = mysqli_fetch_object($result)) {
+                if ($o != null) {
+                    $oportunity = new stdClass();
+                    $oportunity = $o;
+                    if(empty($oportunity->photo)) $oportunity->photo = "images/sem_logo.png";
+                    $oportunity->creator = UserDAO::getBasicUserById($oportunity->creator_id);
+                    if(!isset($filter->user_i) || !empty(InterestDAO::getInterests($filter->user_i, $oportunity->id))) $oportunities[] = $oportunity;
+                }
             }
-        }
+        }        
         return $oportunities;
     }
     

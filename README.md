@@ -4,3 +4,7 @@
 
 ## Linguagem utilizada
 O sistema possui backend em PHP usando Slim e frontend utilizando Bootstrap e AngularJS.
+
+## Ambiente local
+### Dependências
+- `sudo apt install mysql-server php php-mysql`
