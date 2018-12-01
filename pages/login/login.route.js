@@ -1,9 +1,9 @@
 (function(){
     angular.module('compOp').config(function($locationProvider, $routeProvider){
         $routeProvider
-        .when('/about', {
-            templateUrl: 'aboutpage/about.html',
-            controller: 'generalCtrl',
+        .when('/login', {
+            templateUrl: 'pages/login/login.html',
+            controller: 'loginCtrl',
             controllerAs: 'vm'
         });
     });

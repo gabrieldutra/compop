@@ -2,7 +2,7 @@
     angular.module('compOp').config(function($locationProvider, $routeProvider){
         $routeProvider
         .when('/myinterests', {
-            templateUrl: 'myinterestspage/myinterests.html',
+            templateUrl: 'pages/myinterests/myinterests.html',
             controller: 'myInterestsCtrl',
             controllerAs: 'vm'
         });

@@ -1,9 +1,9 @@
 (function(){
     angular.module('compOp').config(function($routeProvider){
         $routeProvider
-        .when('/oportunity/:id', {
-            templateUrl: 'oportunity/oportunity.html',
-            controller: 'oportunityCtrl',
+        .when('/user/:id', {
+            templateUrl: 'pages/user/user.html',
+            controller: 'userCtrl',
             controllerAs: 'vm'
         });
     });
