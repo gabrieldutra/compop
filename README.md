@@ -8,6 +8,8 @@ O sistema possui backend em PHP usando Slim e frontend utilizando Bootstrap e An
 ## Executando em ambiente local
 ### 1. Instalar Dependências
 - `sudo apt install mysql-server php php-mysql`
+- `sudo mysql_secure_installation`
+
 
 ### 2. Configurar o banco de dados
 Configure o banco de dados **compop** no MySQL:
