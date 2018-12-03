@@ -17,9 +17,7 @@ Configure o banco de dados **compop** no MySQL:
 - `mysql -u root -p compop < compop.sql`
 
 Faça a configuração na API:
-- `cp api/connection.example.php api/connection.php`
-
-Edite o arquivo `api/connection.php` com um editor de sua preferência (ex: `vim api/connection.php` :grin:) e insira a senha de acesso do seu banco de dados local.
+- Edite o arquivo `api/connection.php` com um editor de sua preferência (ex: `vim api/connection.php` :grin:) e insira a senha de acesso do seu banco de dados local.
 
 
 ### 3. Execute o servidor
