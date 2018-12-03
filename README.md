@@ -11,8 +11,8 @@ O sistema possui backend em PHP usando Slim e frontend utilizando Bootstrap e An
 
 ### 2. Configurar o banco de dados
 Configure o banco de dados **compop** no MySQL:
-- `mysql -u -p -e "create database compop;"`
-- `mysql -u -p compop < api/compop.sql`
+- `mysql -u root -p -e "create database compop;"`
+- `mysql -u root -p compop < api/compop.sql`
 
 Faça a configuração na API:
 - `cp api/connection.example.php api/connection.php`
