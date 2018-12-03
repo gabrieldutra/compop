@@ -5,6 +5,22 @@
 ## Linguagem utilizada
 O sistema possui backend em PHP usando Slim e frontend utilizando Bootstrap e AngularJS.
 
-## Ambiente local
-### Dependências
+## Executando em ambiente local
+### 1. Instalar Dependências
 - `sudo apt install mysql-server php php-mysql`
+
+### 2. Configurar o banco de dados
+Configure o banco de dados **compop** no MySQL:
+- `mysql -u -p -e "create database compop;"`
+- `mysql -u -p compop < api/compop.sql`
+
+Faça a configuração na API:
+- `cp api/connection.example.php api/connection.php`
+
+Edite o arquivo `api/connection.php` com um editor de sua preferência (ex: `vim api/connection.php` :grin:) e insira a senha de acesso do seu banco de dados local.
+
+
+### 3. Execute o servidor
+- `php -S 0.0.0.0:3000`
+
+Acesse http://localhost:3000 e o servidor já deverá estar funcionando
